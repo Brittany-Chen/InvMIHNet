@@ -40,6 +40,7 @@ First set a config file in options/test/, then run as following:
 
 	python test.py -opt options/test/test_InvMIHNet_4images.yml
 
+You can choose to conceal and reveal **4, 6, 8, 9, 16 images**.
 
 ## Description of the files in this repository
  
