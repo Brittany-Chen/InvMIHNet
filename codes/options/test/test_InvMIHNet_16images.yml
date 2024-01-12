@@ -1,0 +1,44 @@
+name: Hiding_16_images_test
+suffix: ~  # add suffix to saved images
+model: InvMIHNet
+distortion: sr
+scale_W: 4
+scale_H: 4
+crop_border: 0  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [0]
+
+datasets:
+  test_1:
+    name: val_DIV2K
+    mode: Steg
+    batch_size: 17
+    dataroot_GT: D:\dataset\DIV2K\DIV2K_valid_HR_1024
+    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+#  test_2:
+#    name: val_COCO
+#    mode: LQGT
+#    dataroot_GT: # path to COCO testing dataset
+#    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+#  test_3:
+#    name: val_ImageNet
+#    mode: LQGT
+#    dataroot_GT: # path to ImageNet testing dataset
+#    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+
+
+#### network
+network_G:
+  which_model_G:
+    subnet_type: DBNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [8, 8]
+  scale_W: 4
+  scale_H: 4
+  init: xavier
+
+
+#### path
+path:
+  pretrain_model_G: ../experiments/pretrained_models/IIR_16images.pth
+  pretrain_model_H: ../experiments/pretrained_models/IIH_16images.pth

@@ -1,0 +1,98 @@
+
+#### general settings
+
+name: InvMIHNet_8images_train
+use_tb_logger: true
+model: InvMIHNet
+distortion: sr
+scale_H: 4
+scale_W: 2
+gpu_ids: [0]
+
+
+#### datasets
+
+datasets:
+  train:
+    name: DIV2K
+    mode: Steg
+    dataroot_GT:  # path to training images
+    dataroot_LQ: ~ # path to training reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+
+    use_shuffle: true
+    n_workers: 0  # per GPU
+    batch_size: 9
+    GT_size: 144
+    color: RGB
+
+  val:
+    name: val_DIV2K
+    mode: Steg
+    batch_size: 9
+    dataroot_GT:  # path to validation images
+    dataroot_LQ: ~ # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+
+
+#### network structures
+
+network_G:
+  which_model_G:
+      subnet_type: DBNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [8, 8]
+  scale_H: 4
+  scale_W: 2
+  init: xavier
+
+
+#### path
+
+path:
+  pretrain_model_G: ~
+  pretrain_model_H: ~
+  strict_load: true
+  resume_state: ~
+
+
+#### training settings: learning rate scheme, loss
+
+train:
+  lr_G: !!float 2e-4
+  lr_H: !!float 2e-4
+  beta1: 0.9
+  beta2: 0.999
+  beta1_H: 0.5
+  beta2_H: 0.999
+  niter: 500000
+  warmup_iter: -1  # no warm up
+
+  lr_scheme: MultiStepLR
+  lr_steps: [20000, 40000, 80000, 100000]
+  lr_gamma: 0.5
+
+  pixel_criterion_forw: l2
+  pixel_criterion_back: l1
+
+  manual_seed: 10
+
+  val_freq: 1000
+  lambda_fit_forw: 4
+  lambda_rec_back: 1
+  lambda_ce_forw: 1
+  lamda_reconstruction: 5
+  lamda_guide: 1
+  lamda_low_frequency: 1
+
+  weight_decay_G: !!float 1e-5
+  weight_decay_H: !!float 1e-5
+  gradient_clipping: 10
+
+
+  weight_step: 1000
+
+
+#### logger
+
+logger:
+  save_checkpoint_freq: 1000
