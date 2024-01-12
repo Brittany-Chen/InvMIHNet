@@ -44,9 +44,9 @@ First set a config file in options/test/, then run as following:
 ## Description of the files in this repository
  
 1) [`data/`](./data): A data loader to provide data for training, validation and testing.
-2) [`models/`](./models) Construct models for training and testing.
-3) [`options/`](./options) Configure the options for data loader, network structure, model, training strategies and etc.
-4) [`experiments/`](./experiments) Save the parameters of InvMHINet.
+2) [`models/`](./models): Construct models for training and testing.
+3) [`options/`](./options): Configure the options for data loader, network structure, model, training strategies and etc.
+4) [`experiments/`](./experiments): Save the parameters of InvMHINet.
 
 
 ## Citation
